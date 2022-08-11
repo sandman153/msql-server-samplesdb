@@ -1,0 +1,41 @@
+FROM mcr.microsoft.com/mssql/server:2022-latest
+# Other Database versions are available from https://hub.docker.com/_/microsoft-mssql-server 
+# Expose this port on the docker image
+EXPOSE 1433
+
+#This variable must be set using --build-arg INCLUDE_ALL_DATABASES to restore all databases
+ARG INCLUDE_ALL_DATABASES=0
+
+#Depending on the value of the ARG, the bash script will restore/attach databases
+ENV INCLUDE_ALL_DATABASES=${INCLUDE_ALL_DATABASES}
+
+LABEL "Developer" "Sarath Boppudi <sarath@sarathboppudi.com"
+LABEL "Project" "Microsoft SQL Server Images with sample databases"
+
+# Since SQL Server is in a non-root container, we need to force intall packages
+USER root
+
+RUN apt-get update && apt-get install -y \
+        curl \
+        apt-transport-https \
+        p7zip-full
+
+
+#Create local_mountpoint folder where the restores will be happening
+#This step is critical for stateful deployments
+RUN mkdir -p /var/opt/mssql/data
+RUN chown 10001:0 /var/opt/mssql/data
+RUN chmod +rwx /var /opt/mssql/data
+
+# Get to the default user (mssql - 1001)
+RUN mkdir -p /var/opt/mssql/shared_folder
+RUN mkdir -p  /var/opt/mssql/backup
+WORKDIR /var/opt/mssql/backup
+
+######################################################################
+################# DATABASES SECTION ##################################
+# 1) These are the databases to have in the image
+# 2) Setup.sql has the RESTORE commands.
+######################################################################
+
+
