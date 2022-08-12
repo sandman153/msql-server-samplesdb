@@ -1,28 +1,22 @@
-version: '2.4'
+version: '3.9'
 
 services:
-  db1:
+  mssql-samples:
     container_name: mssql-server-samplesdb
     build: 
-      context: .
-      dockerfile: DockerFile
-  hostname:
-      mssql-samplesdb
-  domainname:
-      sarathboppudi.com
-  environment:
-      MSSQL_SA_PASSWORD: ""
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: "Developer"
-      MSSQL_AGENT_ENABLED: "true"
-      FORCE_ATTACH_IF_MDF_EXISTS: "${FORCE_ATTACH_IF_MDF_EXISTS}"
-  volumes:
-    - ${LOCAL_MOUNTPOINT}:/var/opt/mssql/data
-    - ${SHARED_FOLDER}: /var/opt/mssql/SHARED_FOLDER
-  ports:
-    - "14330:1433"
-  cpu_count: 4
-  mem_limit: 8GB
-  
-      
-  
+     context: .
+     dockerfile: DockerFile
+    ports: 
+     - "14330:1433" 
+    environment:
+     MSSQL_SA_PASSWORD: "PaSSw0rd"
+     ACCEPT_EULA: "Y"
+     MSSQL_PID: "Developer"
+     MSSQL_AGENT_ENABLED: "true"
+     FORCE_ATTACH_IF_MDF_EXISTS: "${FORCE_ATTACH_IF_MDF_EXISTS}"
+    volumes:
+     - ${LOCAL_MOUNTPOINT}:/var/opt/mssql/data
+     - ${SHARED_FOLDER}:/var/opt/mssql/SHARED_FOLDER
+volumes:
+  LOCAL_MOUNTPOINT:
+  SHARED_FOLDER:
