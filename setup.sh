@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 # wait for MSSQL server to start
 export STATUS=1
 i=0
 
-while [[ $STATUS -ne 0 ]] && [[ $i -lt 60 ]]; do
+while [ $STATUS -ne 0 ] && [ $i -lt 60 ]; do
 	i=$i+1
 	echo "*************************************************************************"
 	echo "Waiting for SQL Server to start (it will fail until port is opened)..."
@@ -25,7 +25,7 @@ echo "*********** Preparing SQL Server instance features: Contained databases " 
 
 # If the wideworldimportersdw is restored, we don´t need to restore it again
 #
-file="/var/opt/mssql/data/Pubs.mdf"
+#file="/var/opt/mssql/data/Pubs.mdf"
 
 if [ ! -f "$file" ]
 then
