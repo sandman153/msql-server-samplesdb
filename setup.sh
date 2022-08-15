@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # wait for MSSQL server to start
 export STATUS=1
 i=0
 
-while [ $STATUS -ne 0 ] && [ $i -lt 60 ]; do
+while [[ $STATUS -ne 0 ]] && [[ $i -lt 60 ]]; do
 	i=$i+1
 	echo "*************************************************************************"
 	echo "Waiting for SQL Server to start (it will fail until port is opened)..."
